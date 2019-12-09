@@ -33,6 +33,20 @@ public class AccessSql {
         return conn;
     }
 
+    private Connection connect(String url) {
+        // SQLite connection string is attached to the AccessSQL object
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(databasePath);
+            conn.createStatement().executeUpdate("PRAGMA foreign_keys = ON;");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return conn;
+    }
     /**
      *
      * @param dPath database filepath whose parent folder will be used for new database.
@@ -40,10 +54,34 @@ public class AccessSql {
      * @return the filepath of the newly created database.
      */
     public String buildDatabase(String dPath, String tPath)   {
-        LocalDateTime now = LocalDateTime.now();
-        String url = databasePath + now.toString();
+        LocalDateTime temp = LocalDateTime.now();
+        String now = temp.toString();
+        //reformat now for use as filepath
+        if (null != now && now.length() > 0 )
+        {
+            int endIndex = now.lastIndexOf(".");
+            if (endIndex != -1)
+            {
+                now = now.substring(0, endIndex);
+            }
+        }
+        now = now.replaceAll(":","-");
+        String url = "";
+        if (null != dPath && dPath.length() > 0 )
+        {
+            int endIndex = dPath.lastIndexOf("/");
+            if (endIndex != -1)
+            {
+                url = dPath.substring(0, endIndex);
+            }
+        }
 
-        try (Connection conn = this.connect())    {
+        url = url + "/" + now + ".sqlite";
+        databasePath = url;
+
+
+        try (Connection conn = DriverManager.getConnection(url))    {
+
             if (conn != null)   {
                 DatabaseMetaData meta = conn.getMetaData();
                 System.out.println("IN DATABASE BUILDER LINE 33\n" +
@@ -52,7 +90,7 @@ public class AccessSql {
             }
         }
         catch (SQLException e)  {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n" + url);
         }
 
         //A Placeholder for my create table statements

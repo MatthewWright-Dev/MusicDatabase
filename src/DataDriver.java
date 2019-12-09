@@ -11,7 +11,7 @@
 
 public class DataDriver {
 
-    private static String databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/ReviewsDB.db";
+    private static String databasePath = "jdbc:sqlite::C:/SQLite/MusicReviews/ReviewsDB.db";
 
     public static void main(String[] args)  {
 
