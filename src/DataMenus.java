@@ -17,14 +17,14 @@ public class DataMenus {
         databasePath = path;
     }
 
-    public void dbCreateMenu()  {
+    public String createDatabaseMenu()  {
         System.out.println("Welcome to the Music Database Service\n" +
                 "The current default Database file is: \n" +
                 "" + databasePath + "\n" +
-                "Would you like to" +
+                "Would you like to\n" +
                 "1: Continue with default database\n" +
                 "2: Enter a file path for alternative database\n" +
-                "3: Generate a new database" +
+                "3: Generate a new database\n" +
                 "**********************************************");
 
         int choice = 0;
@@ -35,10 +35,12 @@ public class DataMenus {
             case (1): break;
             case (2): databasePath = getUserString();
                 break;
-            case (3):
+            case (3): AccessSql temp = new AccessSql(databasePath);
+                      databasePath = temp.buildDatabase(databasePath, "Not Yet Needed");
+                      break;
         }
 
-
+        return databasePath;
     }
 
     private static int getMenuChoice()  {

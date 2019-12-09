@@ -10,10 +10,13 @@
 
 
 public class DataDriver {
+
+    private static String databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/ReviewsDB.db";
+
     public static void main(String[] args)  {
 
-
-
-
+        DataMenus menu = new DataMenus(databasePath);
+        databasePath = menu.createDatabaseMenu();
+        System.out.println(databasePath);
     }
 }
