@@ -76,25 +76,29 @@ public class AccessSql {
             }
         }
 
-        url = url + "/" + now + ".sqlite";
+        url = url + "/" + now + ".db";
         databasePath = url;
+        //databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/test.db";
+        //url = databasePath;
+
 
 
         try (Connection conn = DriverManager.getConnection(url))    {
-
-            if (conn != null)   {
+           if (conn != null)   {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("IN DATABASE BUILDER LINE 33\n" +
-                        "The driver name is " + meta.getDriverName() + "\n" +
-                        "A new database has been created...");
-            }
+//                System.out.println("IN DATABASE BUILDER LINE 33\n" +
+//                        "The driver name is " + meta.getDriverName() + "\n" +
+//                        "A new database has been created...");
+               System.out.println("A new database has been created: " +
+                       url);
+           }
         }
-        catch (SQLException e)  {
-            System.out.println(e.getMessage() + "\n" + url);
+        catch (Exception e)  {
+                System.out.println(e.getMessage() + "\n" + url);
         }
 
         //A Placeholder for my create table statements
-        String createTables = "CREATE TABLE Albums(\n" +
+        String tables = "CREATE TABLE Albums(\n" +
                 "\tartist VARCHAR(20) PRIMARY KEY,\n" +
                 "\talbum VARCHAR(20),\n" +
                 "        label VARCHAR(20),\n" +
@@ -102,17 +106,17 @@ public class AccessSql {
                 "        rating VARCHAR(20),\n" +
                 "        desc VARCHAR(20) );";
         //execute the create table statements
-
-        sqlQuery("SELECT * FROM Albums;");
+        this.createTables(tables);
+        //sqlQuery("SELECT * FROM Albums;");
 
         return url;
     }
 
-    public void createTables(String sql)    {
+    private void createTables(String sql)    {
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
-
+             ) {
+            stmt.executeUpdate(sql);
         }catch (SQLException s) {
             System.out.println(s + " tried createTables... whooooop");
         }

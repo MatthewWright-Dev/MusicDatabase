@@ -31,11 +31,15 @@ public class DataMenus {
         while (choice != 1 && choice !=2 && choice != 3) {
             choice = getMenuChoice();
         }
+
+        AccessSql temp = new AccessSql(databasePath);
+
         switch (choice)    {
-            case (1): break;
+            case (1): temp.sqlQuery(".tables");
+                break;
             case (2): databasePath = getUserString();
                 break;
-            case (3): AccessSql temp = new AccessSql(databasePath);
+            case (3):
                       databasePath = temp.buildDatabase(databasePath, "Not Yet Needed");
                       break;
         }
