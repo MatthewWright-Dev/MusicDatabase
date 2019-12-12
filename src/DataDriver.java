@@ -18,5 +18,8 @@ public class DataDriver {
         DataMenus menu = new DataMenus(databasePath);
         databasePath = menu.createDatabaseMenu();
         System.out.println(databasePath);
+
+        WebScrubber ws = new WebScrubber("https://www.allmusic.com/newreleases?utm_source=newsletter&utm_medium=email&utm_campaign=2019-12-06");
+        ws.getPage();
     }
 }
