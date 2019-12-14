@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * DataDriver.java contains the main method and controls the order of
  * execution of all objects and associated methods for the
@@ -20,6 +22,10 @@ public class DataDriver {
         System.out.println(databasePath);
 
         WebScrubber ws = new WebScrubber("https://www.allmusic.com/newreleases?utm_source=newsletter&utm_medium=email&utm_campaign=2019-12-06");
-        ws.getPage();
+        List<Review> reviews = ws.reviewScraper();
+
+        for(Review rev : reviews)   {
+            System.out.println(rev.toString());
+        }
     }
 }
