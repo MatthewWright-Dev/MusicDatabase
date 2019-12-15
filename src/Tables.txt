@@ -1,0 +1,128 @@
+sqlite3.exe ReviewsDB.db
+
+CREATE TABLE Reviews(
+	artist VARCHAR(20) PRIMARY KEY,
+	album VARCHAR(20),
+        label VARCHAR(20),
+        genre VARCHAR(20),
+	critic VARCHAR(20),
+        desc VARCHAR(200),
+	bandLink VARCHAR(30),
+        albumLink VARCHAR(20),
+        rating VARCHAR(20));
+
+
+
+2019-12-09T13:08:49.833780200
+
+sqlite3.exe HospitalDB.db
+
+
+CREATE TABLE Employee(
+	firstName VARCHAR(20) NOT NULL,
+	lastName VARCHAR(20) PRIMARY KEY,
+	title  VARCHAR(20) NOT NULL, 
+	admitting  INTEGER DEFAULT (0) );
+
+
+CREATE TABLE Room (
+	roomNumber INTEGER PRIMARY KEY AUTOINCREMENT,
+	isEmpty INTEGER DEFAULT (0) );
+
+CREATE TABLE Diagnosis (
+	disease VARCHAR(40) UNIQUE, 
+	cases INTEGER DEFAULT(1), 
+	dID INTEGER PRIMARY KEY AUTOINCREMENT);
+
+CREATE TABLE Diagnose (
+	doctor VARCHAR(20) NOT NULL,
+	disease VARCHAR(40) NOT NULL,
+	cases INTEGER DEFAULT(1),
+	PRIMARY KEY(doctor, disease), 
+	FOREIGN KEY (doctor) REFERENCES Employee(lastName) );
+
+
+CREATE TABLE InPatient (
+	patientID VARCHAR(10) PRIMARY KEY,
+	lastName VARCHAR(20),
+	firstName VARCHAR(20),
+	primDoc VARCHAR(20) NOT NULL,
+	emergencyContactName VARCHAR(40) NOT NULL,
+	emergencyContactNumber VARCHAR(12) NOT NULL,
+	insNum VARCHAR(20),
+	insName VARCHAR(20),
+	diagnosis VARCHAR(20) NOT NULL,
+	room INTEGER NOT NULL,
+	admitDate VARCHAR(10) NOT NULL, 
+	disDate  VARCHAR(10),
+	inHospital INTEGER DEFAULT (0),
+	FOREIGN KEY (primDoc) REFERENCES Employee(lastName),
+	FOREIGN KEY (room) REFERENCES Room(roomNumber) );
+ 
+
+CREATE TABLE OutPatient (
+	patientID VARCHAR(10) PRIMARY KEY,
+	lastName VARCHAR(20),
+	firstName VARCHAR(20) NOT NULL,
+	primDoc VARCHAR(20) NOT NULL,
+	emergencyContactName VARCHAR(40) NOT NULL,
+	emergencyContactNumber VARCHAR(12) NOT NULL,
+	insNum VARCHAR(20),
+	insName VARCHAR(20),
+	diagnosis VARCHAR(20) NOT NULL,
+	FOREIGN KEY (primDoc) REFERENCES Employee(lastName) );
+
+
+CREATE TABLE AssignDoctor (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	patient VARCHAR(20),
+	additionalDoctor VARCHAR(20),
+	FOREIGN KEY (additionalDoctor) REFERENCES Employee(lastName) );
+
+
+CREATE TABLE Procedure (
+	procedureName VARCHAR(20) PRIMARY KEY ,
+	type VARCHAR(20),
+	cases INTEGER DEFAULT(1) );
+
+
+CREATE TABLE Treatment (
+	patientName VARCHAR(20) NOT NULL,
+	docRequest VARCHAR(20) NOT NULL,
+	treatType VARCHAR(1) NOT NULL,
+	treatment VARCHAR(20), 
+	time VARCHAR(20),
+	isInpatient INTEGER DEFAULT (0),
+	treatID INTEGER PRIMARY KEY AUTOINCREMENT);
+
+CREATE TABLE Treat (
+	doctor VARCHAR(20) NOT NULL,
+	treatment VARCHAR(40) NOT NULL,
+	cases INTEGER DEFAULT(1),
+	PRIMARY KEY(doctor, treatment), 
+	FOREIGN KEY (doctor) REFERENCES Employee(lastName) );
+
+
+
+
+
+INSERT INTO Room(roomNumber) VALUES(1);
+INSERT INTO Room(roomNumber) VALUES(2);
+INSERT INTO Room(roomNumber) VALUES(3);
+INSERT INTO Room(roomNumber) VALUES(4);
+INSERT INTO Room(roomNumber) VALUES(5);
+INSERT INTO Room(roomNumber) VALUES(6);
+INSERT INTO Room(roomNumber) VALUES(7);
+INSERT INTO Room(roomNumber) VALUES(8);
+INSERT INTO Room(roomNumber) VALUES(9);
+INSERT INTO Room(roomNumber) VALUES(10);
+INSERT INTO Room(roomNumber) VALUES(11);
+INSERT INTO Room(roomNumber) VALUES(12);
+INSERT INTO Room(roomNumber) VALUES(13); 
+INSERT INTO Room(roomNumber) VALUES(14);
+INSERT INTO Room(roomNumber) VALUES(15);
+INSERT INTO Room(roomNumber) VALUES(16);
+INSERT INTO Room(roomNumber) VALUES(17);
+INSERT INTO Room(roomNumber) VALUES(18);
+INSERT INTO Room(roomNumber) VALUES(19);
+INSERT INTO Room(roomNumber) VALUES(20);
