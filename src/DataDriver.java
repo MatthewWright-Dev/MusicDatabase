@@ -4,19 +4,26 @@
  * Music Review Database.
  *
  * @author Matt Wright (mattmyth@gmail.com)
- * @version 2019-12-09
+ * @version 2019-12-13
  *
  */
 
 
 public class DataDriver {
 
-    private static String databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/ReviewsDB.db";
+    private static String databasePath = "jdbc:sqlite:C:/Users/Matt/Dropbox/Java_Code/MusicDatabase/MusicReviewsDB/ReviewsDB.db";
 
     public static void main(String[] args)  {
 
+        System.out.println("#####################################\n" +
+                           "Welcome to the Music Database Service\n" +
+                           "#####################################\n");
         DataMenus menu = new DataMenus(databasePath);
-        databasePath = menu.createDatabaseMenu();
-        System.out.println(databasePath);
+
+        try {
+            menu.mainMenu();
+        } catch (Exception e)   {
+            System.out.println(e.getMessage() + "\n" + e.getStackTrace());
+        }
     }
 }

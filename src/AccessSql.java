@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * with the Music Reviews Database for inserting and querying data.
  *
  * @author Matt Wright (mattmyth@gmail.com)
- * @version 2019-12-09
+ * @version 2019-12-13
  *
  */
 
@@ -33,20 +33,6 @@ public class AccessSql {
         return conn;
     }
 
-    private Connection connect(String url) {
-        // SQLite connection string is attached to the AccessSQL object
-
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(databasePath);
-            conn.createStatement().executeUpdate("PRAGMA foreign_keys = ON;");
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return conn;
-    }
     /**
      *
      * @param dPath database filepath whose parent folder will be used for new database.
@@ -78,17 +64,10 @@ public class AccessSql {
 
         url = url + "/" + now + ".db";
         databasePath = url;
-        //databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/test.db";
-        //url = databasePath;
-
-
 
         try (Connection conn = DriverManager.getConnection(url))    {
            if (conn != null)   {
-                DatabaseMetaData meta = conn.getMetaData();
-//                System.out.println("IN DATABASE BUILDER LINE 33\n" +
-//                        "The driver name is " + meta.getDriverName() + "\n" +
-//                        "A new database has been created...");
+               DatabaseMetaData meta = conn.getMetaData();
                System.out.println("A new database has been created: " +
                        url);
            }
@@ -98,16 +77,18 @@ public class AccessSql {
         }
 
         //A Placeholder for my create table statements
-        String tables = "CREATE TABLE Albums(\n" +
+        String tables = "CREATE TABLE Reviews(\n" +
                 "\tartist VARCHAR(20) PRIMARY KEY,\n" +
                 "\talbum VARCHAR(20),\n" +
                 "        label VARCHAR(20),\n" +
                 "        genre VARCHAR(20),\n" +
-                "        rating VARCHAR(20),\n" +
-                "        desc VARCHAR(20) );";
-        //execute the create table statements
+                "\tcritic VARCHAR(20),\n" +
+                "        desc VARCHAR(200),\n" +
+                "\tbandLink VARCHAR(30),\n" +
+                "        albumLink VARCHAR(20),\n" +
+                "        rating VARCHAR(20));";
+
         this.createTables(tables);
-        //sqlQuery("SELECT * FROM Albums;");
 
         return url;
     }
@@ -171,6 +152,30 @@ public class AccessSql {
 
         } catch (SQLException e) {
             System.out.println(e + "tried to print column name result in printResult");
+        }
+    }
+
+    public void addReview(Review rev) {
+
+        String sql = "INSERT INTO Reviews(artist, album, label, genre, critic, desc, bandLink, " +
+                "albumLink, rating) VALUES (?,?,?,?,?,?,?,?,?);";
+
+        try (Connection conn = this.connect())  {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, rev.getArtist());
+            ps.setString(2, rev.getAlbum());
+            ps.setString(3, rev.getLabel());
+            ps.setString(4, rev.getGenre());
+            ps.setString(5, rev.getCritic());
+            ps.setString(6, rev.getDescription());
+            ps.setString(7, rev.getBandLink());
+            ps.setString(8, rev.getAlbumLink());
+            ps.setString(9, rev.getRating());
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (Exception e)   {
+            System.out.println(e + "In addReview in AccessSQL");
         }
     }
 
