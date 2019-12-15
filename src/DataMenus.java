@@ -51,6 +51,8 @@ public class DataMenus {
     }
 
     private void createDatabaseMenu()  {
+        int choice = 0;
+        while (choice != 1 && choice !=2 && choice != 3 && choice != 4) {
         System.out.println("The current default Database file is: \n" +
                 "" + databasePath + "\n" +
                 "Would you like to\n" +
@@ -60,8 +62,7 @@ public class DataMenus {
                 "4: Main Menu\n" +
                 "**********************************************");
 
-        int choice = 0;
-        while (choice != 1 && choice !=2 && choice != 3 && choice != 4) {
+
             choice = getUserInt();
         }
 
@@ -71,6 +72,7 @@ public class DataMenus {
             case (1):
                 break;
             case (2):
+                System.out.println("Enter the file path:");
                 databasePath = getUserString();
                 break;
             case (3):
@@ -99,7 +101,7 @@ public class DataMenus {
             try {
                 reviews = ws.reviewScraper();
             } catch (Exception e)   {
-                System.out.println(e.getStackTrace());
+                System.out.println(e.getMessage());
             }
 
             for (Review rev : reviews) {
@@ -112,10 +114,11 @@ public class DataMenus {
                 db.addReview(rev);
             }
 
-            System.out.println("Enter another link?\n1 = Yes\n2 = No\n" +
-                               "*******************");
             int choice = 0;
             while (choice != 1 && choice != 2 ) {
+            System.out.println("Enter another link?\n1 = Yes\n2 = No\n" +
+                               "*******************");
+
                 choice = getUserInt();
             }
             if (getUserInt() == 1)    {

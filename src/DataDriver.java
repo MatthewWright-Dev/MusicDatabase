@@ -11,7 +11,7 @@
 
 public class DataDriver {
 
-    private static String databasePath = "jdbc:sqlite:C:/Users/Matt/Dropbox/Java_Code/MusicDatabase/MusicReviewsDB/ReviewsDB.db";
+    private static String databasePath = "jdbc:sqlite:C:/Users/Matt/Dropbox/Java_Code/MusicReviews/ReviewsDB.db";
 
     public static void main(String[] args)  {
 
@@ -23,7 +23,7 @@ public class DataDriver {
         try {
             menu.mainMenu();
         } catch (Exception e)   {
-            System.out.println(e.getMessage() + "\n" + e.getStackTrace());
+            System.out.println(e.getMessage() + "\n" + e);
         }
     }
 }
