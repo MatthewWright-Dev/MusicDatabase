@@ -78,10 +78,6 @@ public class AccessSql {
 
         url = url + "/" + now + ".db";
         databasePath = url;
-        //databasePath = "jdbc:sqlite:C:/SQLite/MusicReviews/test.db";
-        //url = databasePath;
-
-
 
         try (Connection conn = DriverManager.getConnection(url))    {
            if (conn != null)   {
@@ -105,9 +101,8 @@ public class AccessSql {
                 "        genre VARCHAR(20),\n" +
                 "        rating VARCHAR(20),\n" +
                 "        desc VARCHAR(20) );";
-        //execute the create table statements
+
         this.createTables(tables);
-        //sqlQuery("SELECT * FROM Albums;");
 
         return url;
     }
